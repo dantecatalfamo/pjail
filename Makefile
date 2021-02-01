@@ -9,3 +9,6 @@ $(TARGET): $(TARGET).c
 
 clean:
 	$(RM) $(TARGET)
+
+install:
+	install -m 755 $(TARGET) $(DESTDIR)$(PREFIX)/bin
