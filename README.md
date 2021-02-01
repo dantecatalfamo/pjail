@@ -2,7 +2,7 @@
 Execute a program with pledge restrictions 
 
 ```
-pjail: [-hl] [-p pledge] [command] [args...]
+pjail: [-hvli] [-p pledge] [command] [args...]
 ```
 
 ## flags
