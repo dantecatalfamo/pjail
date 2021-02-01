@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wextra -pedantic
+CFLAGS = -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Wshadow -pedantic
 TARGET = pjail
 PREFIX=/usr/local
 

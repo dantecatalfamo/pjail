@@ -22,8 +22,8 @@ char *allpromises[] = {
 
 int validpromise(const char *);
 int appendpromise(const char **, int, const char *);
-void listpromises();
-void usage();
+void listpromises(void);
+void usage(void);
 void pledgefmt(char *, int, const char **, int);
 int invertpromises(const char **, int);
 
@@ -111,13 +111,13 @@ main(int argc, char **argv, char **envp)
 }
 
 void
-usage()
+usage(void)
 {
     printf("pjail: [-hvli] [-p pledge] [command] [args...]\n");
 }
 
 void
-listpromises()
+listpromises(void)
 {
     char *p;
     int index;
