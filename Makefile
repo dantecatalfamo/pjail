@@ -1,4 +1,3 @@
-CC = gcc
 CFLAGS = -Wall -Wextra -pedantic
 TARGET = pjail
 PREFIX=/usr/local
