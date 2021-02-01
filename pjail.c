@@ -114,7 +114,7 @@ main(int argc, char **argv, char **envp)
 void
 usage(void)
 {
-    printf("pjail: [-hvli] [-p pledge] [command] [args...]\n");
+    printf("pjail: [-hvli] [-p promise] [command] [args...]\n");
 }
 
 void
