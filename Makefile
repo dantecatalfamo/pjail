@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -Wall
 TARGET = pjail
+PREFIX=/usr/local
 
 all: $(TARGET)
 
