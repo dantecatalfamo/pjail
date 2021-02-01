@@ -10,3 +10,6 @@ pjail: [-hl] [-p pledge] [command] [args...]
 - `-h` Show help
 - `-l` List pledge promises
 - `-p` Make pledge promise
+
+# more
+See [man pledge](https://man.openbsd.org/pledge.2) for more details.
