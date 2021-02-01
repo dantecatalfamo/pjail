@@ -31,11 +31,11 @@ int
 main(int argc, char **argv, char **envp)
 {
     int ch, valid, npromises;
-    char pledgecat[MAXLEN_PROMISE];
+    char pledgestr[MAXLEN_PROMISE];
     char *shell;
     const char *promises[NUMBER_PLEDGES+1] = {NULL};
 
-    pledgecat[0] = '\0';
+    pledgestr[0] = '\0';
     npromises = 0;
 
     while ((ch = getopt(argc, argv, "hlp:")) != -1) {
@@ -71,8 +71,8 @@ main(int argc, char **argv, char **envp)
         exit(EXIT_NO_PROMISES);
     }
 
-    pledgefmt(pledgecat, MAXLEN_PROMISE, promises, npromises);
-    if (pledge("stdio exec", pledgecat) != 0) {
+    pledgefmt(pledgestr, MAXLEN_PROMISE, promises, npromises);
+    if (pledge("stdio exec", pledgestr) != 0) {
         perror("Pledge failed");
     }
 
