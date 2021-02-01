@@ -21,7 +21,7 @@ char *allpromises[] = {
 
 
 int validpromise(const char *);
-int appendpromise(const char **, int, const char *);
+int appendpromise(const char **, const char *);
 int invertpromises(const char **, int);
 void listpromises(void);
 void usage(void);
@@ -63,7 +63,7 @@ main(int argc, char **argv, char **envp)
                 printf("%s is not a valid pledge\n", optarg);
                 exit(EXIT_INVALID_PROMISE);
             }
-            if (appendpromise(promises, NUMBER_PROMISES, optarg)) {
+            if (appendpromise(promises, optarg)) {
                 npromises++;
             }
             break;
@@ -121,10 +121,9 @@ usage(void)
 void
 listpromises(void)
 {
-    char *p;
-    int index;
-    index = 0;
-    while ((p = allpromises[index++])) {
+    char *p, **ap;
+    ap = allpromises;
+    while ((p = *ap++)) {
         printf("%s\n", p);
     }
 }
@@ -132,11 +131,9 @@ listpromises(void)
 int
 validpromise(const char *promise)
 {
-    int index;
-    char *p;
-
-    index = 0;
-    while ((p = allpromises[index++])) {
+    char *p, **ap;
+    ap = allpromises;
+    while ((p = *ap++)) {
         if ((strcmp(promise, p)) == 0) {
             return 1;
         }
@@ -145,19 +142,18 @@ validpromise(const char *promise)
 }
 
 int
-appendpromise(const char **promises, int length, const char *promise)
+appendpromise(const char **promises, const char *promise)
 {
-    const char *p;
-    int index;
-    index = 0;
-    while ((index < length) && (p = promises[index])) {
+    const char *p, **op;
+    op = promises;
+    while ((p = *op)) {
         if (strcmp(p, promise) == 0) {
             return 0;
         }
-        index++;
+        op++;
     }
-    assert(index <= NUMBER_PROMISES);
-    promises[index] = promise;
+    assert(op[1] == NULL);
+    *op = promise;
     return 1;
 }
 
