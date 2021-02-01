@@ -22,10 +22,11 @@ char *allpromises[] = {
 
 int validpromise(const char *);
 int appendpromise(const char **, int, const char *);
+int invertpromises(const char **, int);
 void listpromises(void);
 void usage(void);
 void pledgefmt(char *, int, const char **, int);
-int invertpromises(const char **, int);
+
 
 
 int
@@ -138,7 +139,7 @@ validpromise(const char *promise)
     while ((p = allpromises[index++])) {
         if ((strcmp(promise, p)) == 0) {
             return 1;
-        };
+        }
     }
     return 0;
 }
