@@ -8,7 +8,9 @@ pjail: [-hl] [-p pledge] [command] [args...]
 ## flags
 
 - `-h` Show help
+- `-v` Verbose (print pledge string to `stderr` before executing)
 - `-l` List pledge promises
+- `-i` Invert (pledge everything except promises in flags)
 - `-p` Make pledge promise
 
 # compiling
