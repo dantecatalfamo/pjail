@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -Wextra -pedantic
 TARGET = pjail
 PREFIX=/usr/local
 
