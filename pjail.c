@@ -78,6 +78,7 @@ main(int argc, char **argv, char **envp)
 
     if (npromises == 0) {
         fprintf(stderr, "No promises\n");
+        usage();
         exit(EXIT_NO_PROMISES);
     }
 

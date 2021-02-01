@@ -8,7 +8,10 @@ $(TARGET): $(TARGET).c
 	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
 
 clean:
-	$(RM) $(TARGET)
+	rm -f $(TARGET)
 
-install:
+install: $(TARGET)
 	install -m 755 $(TARGET) $(DESTDIR)$(PREFIX)/bin
+
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(TARGET)
