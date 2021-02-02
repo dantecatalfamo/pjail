@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <paths.h>
 
-/* all promises with space between them plus a NUL */
+/* length of all promises with space between them plus a NUL */
 #define MAXLEN_PROMISE 191
 #define NUMBER_PROMISES 33
 #define EXIT_INVALID_PROMISE 2
@@ -38,29 +38,28 @@ main(int argc, char **argv, char **envp)
     const char *promises[NUMBER_PROMISES+1] = {NULL};
 
     pledgestr[0] = '\0';
-    invert = 0;
-    verbose = 0;
+    invert = verbose = 0;
 
-    while ((ch = getopt(argc, argv, "hvlip:")) != -1) {
+    while ((ch = getopt(argc, argv, "hilp:v")) != -1) {
         switch(ch) {
         case 'h':
             usage();
             exit(EXIT_SUCCESS);
-        case 'l':
-            listpromises();
-            exit(EXIT_SUCCESS);
         case 'i':
             invert = 1;
             break;
-        case 'v':
-            verbose = 1;
-            break;
+        case 'l':
+            listpromises();
+            exit(EXIT_SUCCESS);
         case 'p':
             if (!validpromise(optarg)) {
                 printf("%s is not a valid pledge\n", optarg);
                 exit(EXIT_INVALID_PROMISE);
             }
             appendpromise(promises, optarg);
+            break;
+        case 'v':
+            verbose = 1;
             break;
         default:
             usage();
@@ -78,25 +77,21 @@ main(int argc, char **argv, char **envp)
         exit(EXIT_NO_PROMISES);
     }
 
-    if (invert) {
+    if (invert)
         invertpromises(promises);
-    }
 
     pledgefmt(pledgestr, MAXLEN_PROMISE, promises);
 
-    if (verbose) {
+    if (verbose)
         fprintf(stderr,"pledge string: %s\n", pledgestr);
-    }
 
-    if (pledge("stdio exec", pledgestr) != 0) {
+    if (pledge("stdio exec", pledgestr) != 0)
         perror("Pledge failed");
-    }
 
     if (argc == 0) {
         shell = getenv("SHELL");
-        if (!shell) {
+        if (!shell)
             shell = _PATH_BSHELL;
-        }
         shellargv[0] = shell;
         fprintf(stderr, "No command specified, defaulting to %s\n", shell);
         execve(shell, shellargv, envp);
@@ -117,22 +112,21 @@ void
 listpromises(void)
 {
     const char *p, **ap;
+
     ap = allpromises;
-    while ((p = *ap++)) {
-        printf("%s\n", p);
-    }
+    while ((p = *ap++))
+        puts(p);
 }
 
 int
 validpromise(const char *promise)
 {
     const char *p, **ap;
+
     ap = allpromises;
-    while ((p = *ap++)) {
-        if ((strcmp(promise, p)) == 0) {
+    while ((p = *ap++))
+        if ((strcmp(promise, p)) == 0)
             return 1;
-        }
-    }
     return 0;
 }
 
@@ -140,11 +134,11 @@ void
 appendpromise(const char **promises, const char *promise)
 {
     const char *p, **op;
+
     op = promises;
     while ((p = *op)) {
-        if (strcmp(p, promise) == 0) {
+        if (strcmp(p, promise) == 0)
             return;
-        }
         op++;
     }
     *op = promise;
@@ -159,9 +153,8 @@ pledgefmt(char *s, int size, const char **promises)
     op = promises;
     while ((p = *op++)) {
         strlcat(s, p, size);
-        if (*op != NULL) {
+        if (*op != NULL)
             strlcat(s, " ", size);
-        }
     }
 }
 
@@ -179,11 +172,9 @@ invertpromises(const char **promises)
     ap = allpromises;
     while ((p = *ap++)) {
         au = unwanted;
-        while ((u = *au++)) {
-            if (strcmp(u, p) == 0) {
+        while ((u = *au++))
+            if (strcmp(u, p) == 0)
                 goto outer;
-            }
-        }
         *promises++ = p;
     outer:;
     }
