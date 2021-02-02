@@ -11,7 +11,7 @@
 #define EXIT_INVALID_PROMISE 2
 #define EXIT_NO_PROMISES 3
 
-char *allpromises[] = {
+const char *allpromises[] = {
     "stdio", "rpath", "wpath", "cpath", "dpath", "tmppath", "inet",
     "mcast", "fattr", "chown", "flock", "unix", "dns", "getpw", "sendfd",
     "recvfd", "tape", "tty", "proc", "exec", "prot_exec", "settime", "ps",
@@ -21,25 +21,23 @@ char *allpromises[] = {
 
 
 int validpromise(const char *);
-int appendpromise(const char **, const char *);
-int invertpromises(const char **, int);
+void appendpromise(const char **, const char *);
+void invertpromises(const char **);
 void listpromises(void);
 void usage(void);
-void pledgefmt(char *, int, const char **, int);
-
+void pledgefmt(char *, int, const char **);
 
 
 int
 main(int argc, char **argv, char **envp)
 {
-    int ch, valid, npromises, invert, verbose;
+    int ch, invert, verbose;
     char pledgestr[MAXLEN_PROMISE];
     char *shell;
     char *shellargv[2] = {NULL};
     const char *promises[NUMBER_PROMISES+1] = {NULL};
 
     pledgestr[0] = '\0';
-    npromises = 0;
     invert = 0;
     verbose = 0;
 
@@ -58,14 +56,11 @@ main(int argc, char **argv, char **envp)
             verbose = 1;
             break;
         case 'p':
-            valid = validpromise(optarg);
-            if (!valid) {
+            if (!validpromise(optarg)) {
                 printf("%s is not a valid pledge\n", optarg);
                 exit(EXIT_INVALID_PROMISE);
             }
-            if (appendpromise(promises, optarg)) {
-                npromises++;
-            }
+            appendpromise(promises, optarg);
             break;
         default:
             usage();
@@ -77,17 +72,17 @@ main(int argc, char **argv, char **envp)
     argv += optind;
 
 
-    if (npromises == 0) {
+    if (promises[0] != NULL) {
         fprintf(stderr, "No promises\n");
         usage();
         exit(EXIT_NO_PROMISES);
     }
 
     if (invert == 1) {
-        npromises = invertpromises(promises, npromises);
+        invertpromises(promises);
     }
 
-    pledgefmt(pledgestr, MAXLEN_PROMISE, promises, npromises);
+    pledgefmt(pledgestr, MAXLEN_PROMISE, promises);
 
     if (verbose == 1) {
         fprintf(stderr,"pledge string: %s\n", pledgestr);
@@ -121,7 +116,7 @@ usage(void)
 void
 listpromises(void)
 {
-    char *p, **ap;
+    const char *p, **ap;
     ap = allpromises;
     while ((p = *ap++)) {
         printf("%s\n", p);
@@ -131,7 +126,7 @@ listpromises(void)
 int
 validpromise(const char *promise)
 {
-    char *p, **ap;
+    const char *p, **ap;
     ap = allpromises;
     while ((p = *ap++)) {
         if ((strcmp(promise, p)) == 0) {
@@ -141,56 +136,59 @@ validpromise(const char *promise)
     return 0;
 }
 
-int
+void
 appendpromise(const char **promises, const char *promise)
 {
     const char *p, **op;
     op = promises;
     while ((p = *op)) {
         if (strcmp(p, promise) == 0) {
-            return 0;
+            return;
         }
         op++;
     }
-    assert(op[1] == NULL);
     *op = promise;
-    return 1;
+    assert(op[1] == NULL);
 }
 
 void
-pledgefmt(char *s, int size, const char **promises, int npromises)
+pledgefmt(char *s, int size, const char **promises)
 {
-    int i, n;
-    for (i=0; i<npromises; i++) {
-        n = strlcat(s, promises[i], size);
+    int n;
+    const char *p, **op;
+
+    op = promises;
+    while ((p = *op++)) {
+        n = strlcat(s, p, size);
         assert(n < size);
-        if (i+1 < npromises) {
+        if (op[1] != NULL) {
             strlcat(s, " ", size);
         }
     }
 }
 
-int
-invertpromises(const char **promises, int npromises)
+void
+invertpromises(const char **promises)
 {
-    int un, all, out, i;
+    int i;
+    const char *p, *u, **ap, **au, **pr;
     const char *unwanted[NUMBER_PROMISES+1] = {NULL};
 
-    out = 0;
+    au = unwanted;
+    pr = promises;
+    while ((*au++ = *pr++))
+        ;
 
-    for (i=0; i<npromises; i++) {
-        unwanted[i] = promises[i];
-    }
-
-    for (all=0; all<NUMBER_PROMISES; all++) {
-        for (un=0; un<npromises; un++) {
-            if (strcmp(unwanted[un], allpromises[all]) == 0) {
+    ap = allpromises;
+    while ((p = *ap++)) {
+        au = unwanted;
+        while ((u = *au++)) {
+            if (strcmp(u, p) == 0) {
                 goto outer;
             }
         }
-        promises[out] = allpromises[all];
-        out++;
+        *promises++ = p;
     outer:;
     }
-    return out;
+    *promises = NULL;
 }
