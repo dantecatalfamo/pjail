@@ -170,7 +170,6 @@ pledgefmt(char *s, int size, const char **promises)
 void
 invertpromises(const char **promises)
 {
-    int i;
     const char *p, *u, **ap, **au, **pr;
     const char *unwanted[NUMBER_PROMISES+1] = {NULL};
 
