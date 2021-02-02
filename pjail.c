@@ -78,13 +78,13 @@ main(int argc, char **argv, char **envp)
         exit(EXIT_NO_PROMISES);
     }
 
-    if (invert == 1) {
+    if (invert) {
         invertpromises(promises);
     }
 
     pledgefmt(pledgestr, MAXLEN_PROMISE, promises);
 
-    if (verbose == 1) {
+    if (verbose) {
         fprintf(stderr,"pledge string: %s\n", pledgestr);
     }
 
