@@ -72,7 +72,7 @@ main(int argc, char **argv, char **envp)
     argv += optind;
 
 
-    if (promises[0] != NULL) {
+    if (promises[0] == NULL) {
         fprintf(stderr, "No promises\n");
         usage();
         exit(EXIT_NO_PROMISES);
