@@ -161,7 +161,7 @@ pledgefmt(char *s, int size, const char **promises)
     while ((p = *op++)) {
         n = strlcat(s, p, size);
         assert(n < size);
-        if (op[1] != NULL) {
+        if (*op != NULL) {
             strlcat(s, " ", size);
         }
     }
@@ -173,8 +173,8 @@ invertpromises(const char **promises)
     const char *p, *u, **ap, **au, **pr;
     const char *unwanted[NUMBER_PROMISES+1] = {NULL};
 
-    au = unwanted;
     pr = promises;
+    au = unwanted;
     while ((*au++ = *pr++))
         ;
 
