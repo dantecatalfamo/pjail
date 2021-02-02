@@ -29,7 +29,7 @@ void pledgefmt(char *, int, const char **);
 
 
 int
-main(int argc, char **argv, char **envp)
+main(int argc, char **argv)
 {
     int ch, invert, verbose;
     char pledgestr[MAXLEN_PROMISE];
