@@ -20,7 +20,7 @@ const char *allpromises[] = {
 };
 
 
-int validpromise(const char *);
+int  validpromise(const char *);
 void appendpromise(const char **, const char *);
 void invertpromises(const char **);
 void listpromises(void);
