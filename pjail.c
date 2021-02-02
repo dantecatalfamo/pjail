@@ -154,13 +154,11 @@ appendpromise(const char **promises, const char *promise)
 void
 pledgefmt(char *s, int size, const char **promises)
 {
-    int n;
     const char *p, **op;
 
     op = promises;
     while ((p = *op++)) {
-        n = strlcat(s, p, size);
-        assert(n < size);
+        strlcat(s, p, size);
         if (*op != NULL) {
             strlcat(s, " ", size);
         }
