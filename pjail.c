@@ -94,7 +94,7 @@ main(int argc, char **argv)
             shell = _PATH_BSHELL;
         shellargv[0] = shell;
         fprintf(stderr, "No command specified, defaulting to %s\n", shell);
-        execve(shell, shellargv, envp);
+        execv(shell, shellargv);
     }
 
     execvp(argv[0], argv);
