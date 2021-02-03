@@ -2,7 +2,7 @@
 Execute a program with pledge restrictions 
 
 ```
-pjail: [-hilv] [-p <promise>] [command] [args...]
+pjail [-hilv] [-p <promise>] [command] [args...]
 ```
 
 ## flags
