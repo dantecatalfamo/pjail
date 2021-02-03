@@ -2,16 +2,16 @@
 Execute a program with pledge restrictions 
 
 ```
-pjail: [-hvli] [-p <promise>] [command] [args...]
+pjail: [-hilv] [-p <promise>] [command] [args...]
 ```
 
 ## flags
 
 - `-h` Show help
-- `-v` Verbose (print pledge string to `stderr` before executing)
-- `-l` List pledge promises
 - `-i` Invert (pledge everything except promises in flags)
+- `-l` List pledge promises
 - `-p <promise>` Make pledge promise
+- `-v` Verbose (print pledge string to `stderr` before executing)
 
 # compiling
 To compile, just run
