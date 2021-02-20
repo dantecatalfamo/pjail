@@ -121,7 +121,7 @@ main(int argc, char **argv)
 void
 usage(void)
 {
-    printf("pjail [-hilv] [-p <promise>] [command] [args...]\n");
+    printf("pjail [-hilv] [-p promise] [command] [args...]\n");
 }
 
 void

@@ -2,7 +2,7 @@
 Execute a program with pledge restrictions 
 
 ```
-pjail [-hilv] [-p <promise>] [command] [args...]
+pjail [-hilv] [-p promise] [command] [args...]
 ```
 
 ## flags
@@ -10,7 +10,7 @@ pjail [-hilv] [-p <promise>] [command] [args...]
 - `-h` Show help
 - `-i` Invert (pledge everything except promises in flags)
 - `-l` List pledge promises
-- `-p <promise>` Make pledge promise
+- `-p promise` Make pledge promise
 - `-v` Verbose (print pledge string to `stderr` before executing)
 
 # compiling
